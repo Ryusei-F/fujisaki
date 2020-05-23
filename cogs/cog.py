@@ -3,6 +3,7 @@ import discord
 import os
 import time
 import pyautogui
+import re
 
 from discord.ext import commands
 
@@ -21,6 +22,14 @@ L_BUTTON='a'
 R_BUTTON='r'
 INTERVAL=float(0.1)
 SLEEP_TIME=0.1
+
+
+def isNumber(arg):
+    try:
+        float(arg)
+        return True
+    except ValueError:
+        return False
 
 class Commands(commands.Cog):
     def __init__(self, bot):
@@ -52,71 +61,84 @@ class Commands(commands.Cog):
         if message.channel.id != int(self.channel_id):
             return
 
-        if message.content == 'up':
+        if message.content == 'up' or re.match(r'up_.*', message.content) != None:
+            formattedMsg = message.content.replace('up_', '')
+            s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(UP_BUTTON)
-            time.sleep(SLEEP_TIME)
+            time.sleep(s_time)
             pyautogui.keyUp(UP_BUTTON)
-            #pyautogui.press(UP_BUTTON, presses=1, interval=INTERVAL)
-        elif message.content == 'down':
+        elif message.content == 'down' or re.match(r'down_.*', message.content) != None:
+            formattedMsg = message.content.replace('down_', '')
+            s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(DOWN_BUTTON)
-            time.sleep(SLEEP_TIME)
+            time.sleep(s_time)
             pyautogui.keyUp(DOWN_BUTTON)
-            #pyautogui.press(DOWN_BUTTON, presses=1, interval=INTERVAL)
-        elif message.content == 'right':
+        elif message.content == 'right' or re.match(r'right_.*', message.content) != None:
+            formattedMsg = message.content.replace('right_', '')
+            s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(RIGHT_BUTTON)
-            time.sleep(SLEEP_TIME)
+            time.sleep(s_time)
             pyautogui.keyUp(RIGHT_BUTTON)
-            #pyautogui.press(RIGHT_BUTTON, presses=1, interval=INTERVAL)
-        elif message.content == 'left':
+        elif message.content == 'left' or re.match(r'left_.*', message.content) != None:
+            formattedMsg = message.content.replace('left_', '')
+            s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(LEFT_BUTTON)
-            time.sleep(SLEEP_TIME)
+            time.sleep(s_time)
             pyautogui.keyUp(LEFT_BUTTON)
-            #pyautogui.press(LEFT_BUTTON, presses=1, interval=INTERVAL)
 
-        elif message.content == 'a' or message.content == 'A':
+        elif message.content == 'a' or re.match(r'a_.*', message.content) != None:
+            formattedMsg = message.content.replace('a_', '')
+            s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(A_BUTTON)
-            time.sleep(SLEEP_TIME)
+            time.sleep(s_time)
             pyautogui.keyUp(A_BUTTON)
-            #pyautogui.press(A_BUTTON, presses=1, interval=INTERVAL)
-        elif message.content == 'b' or message.content == 'B':
+        elif message.content == 'b' or re.match(r'b_.*', message.content) != None:
+            formattedMsg = message.content.replace('b_', '')
+            s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(B_BUTTON)
-            time.sleep(SLEEP_TIME)
+            time.sleep(s_time)
             pyautogui.keyUp(B_BUTTON)
-            #pyautogui.press(B_BUTTON, presses=1, interval=INTERVAL)
-        elif message.content == 'x' or message.content == 'X':
+        elif message.content == 'x' or re.match(r'x_.*', message.content) != None:
+            formattedMsg = message.content.replace('x_', '')
+            s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(X_BUTTON)
-            time.sleep(SLEEP_TIME)
+            time.sleep(s_time)
             pyautogui.keyUp(X_BUTTON)
-            #pyautogui.press(X_BUTTON, presses=1, interval=INTERVAL)
-        elif message.content == 'y' or message.content == 'Y':
+        elif message.content == 'y' or re.match(r'y_.*', message.content) != None:
+            formattedMsg = message.content.replace('y_', '')
+            s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(Y_BUTTON)
-            time.sleep(SLEEP_TIME)
+            time.sleep(s_time)
             pyautogui.keyUp(Y_BUTTON)
-            #pyautogui.press(Y_BUTTON, presses=1, interval=INTERVAL)
 
-        elif message.content == 'l' or message.content == 'L':
+        elif message.content == 'l' or re.match(r'l_.*', message.content) != None:
+            formattedMsg = message.content.replace('l_', '')
+            s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(L_BUTTON)
-            time.sleep(SLEEP_TIME)
+            time.sleep(s_time)
             pyautogui.keyUp(L_BUTTON)
-            #pyautogui.press(L_BUTTON, presses=1, interval=INTERVAL)
-        elif message.content == 'r' or message.content == 'R':
+            
+        elif message.content == 'r' or re.match(r'r_.*', message.content) != None:
+            formattedMsg = message.content.replace('r_', '')
+            s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(R_BUTTON)
-            time.sleep(SLEEP_TIME)
+            time.sleep(s_time)
             pyautogui.keyUp(R_BUTTON)
-            #pyautogui.press(R_BUTTON, presses=1, interval=INTERVAL)
 
-        elif message.content == 'start':
+        elif message.content == 'start' or re.match(r'start_.*', message.content) != None:
+            formattedMsg = message.content.replace('start_', '')
+            s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(START_BUTTON)
-            time.sleep(SLEEP_TIME)
+            time.sleep(s_time)
             pyautogui.keyUp(START_BUTTON)
-            #pyautogui.press(START_BUTTON, presses=1, interval=INTERVAL)
-        elif message.content == 'select':
+        elif message.content == 'select' or re.match(r'select_.*', message.content) != None:
+            formattedMsg = message.content.replace('select_', '')
+            s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(SELECT_BUTTON)
-            time.sleep(SLEEP_TIME)
+            time.sleep(s_time)
             pyautogui.keyUp(SELECT_BUTTON)
-            #pyautogui.press(SELECT_BUTTON, presses=1, interval=INTERVAL)
 
-
+        
     @commands.Cog.listener()
     async def on_ready(self):
         print('Connected to Discord.')
