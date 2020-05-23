@@ -20,7 +20,7 @@ SELECT_BUTTON='enter'
 L_BUTTON='a'
 R_BUTTON='r'
 INTERVAL=float(0.1)
-SLEEP_TIME=0.5
+SLEEP_TIME=0.1
 
 class Commands(commands.Cog):
     def __init__(self, bot):
