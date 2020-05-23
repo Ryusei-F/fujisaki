@@ -60,18 +60,18 @@ class Commands(commands.Cog):
         elif message.content == 'left':
             pyautogui.press(LEFT_BUTTON, presses=1, interval=INTERVAL)
 
-        elif message.content == 'a' or 'A':
+        elif message.content == 'a' or message.content == 'A':
             pyautogui.press(A_BUTTON, presses=1, interval=INTERVAL)
-        elif message.content == 'b' or 'B':
+        elif message.content == 'b' or message.content == 'B':
             pyautogui.press(B_BUTTON, presses=1, interval=INTERVAL)
-        elif message.content == 'x' or 'X':
+        elif message.content == 'x' or message.content == 'X':
             pyautogui.press(X_BUTTON, presses=1, interval=INTERVAL)
-        elif message.content == 'y' or 'Y':
+        elif message.content == 'y' or message.content == 'Y':
             pyautogui.press(Y_BUTTON, presses=1, interval=INTERVAL)
 
-        elif message.content == 'l' or 'L':
+        elif message.content == 'l' or message.content == 'L':
             pyautogui.press(L_BUTTON, presses=1, interval=INTERVAL)
-        elif message.content == 'r' or 'R':
+        elif message.content == 'r' or message.content == 'R':
             pyautogui.press(R_BUTTON, presses=1, interval=INTERVAL)
 
         elif message.content == 'start':
