@@ -61,26 +61,26 @@ class Commands(commands.Cog):
         if message.channel.id != int(self.channel_id):
             return
 
-        if message.content == 'up' or re.match(r'up_.*', message.content) != None:
-            formattedMsg = message.content.replace('up_', '')
+        if message.content == 'w' or re.match(r'w_.*', message.content) != None:
+            formattedMsg = message.content.replace('w_', '')
             s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(UP_BUTTON)
             time.sleep(s_time)
             pyautogui.keyUp(UP_BUTTON)
-        elif message.content == 'down' or re.match(r'down_.*', message.content) != None:
-            formattedMsg = message.content.replace('down_', '')
+        elif message.content == 's' or re.match(r's_.*', message.content) != None:
+            formattedMsg = message.content.replace('s_', '')
             s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(DOWN_BUTTON)
             time.sleep(s_time)
             pyautogui.keyUp(DOWN_BUTTON)
-        elif message.content == 'right' or re.match(r'right_.*', message.content) != None:
-            formattedMsg = message.content.replace('right_', '')
+        elif message.content == 'd' or re.match(r'd_.*', message.content) != None:
+            formattedMsg = message.content.replace('d_', '')
             s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(RIGHT_BUTTON)
             time.sleep(s_time)
             pyautogui.keyUp(RIGHT_BUTTON)
-        elif message.content == 'left' or re.match(r'left_.*', message.content) != None:
-            formattedMsg = message.content.replace('left_', '')
+        elif message.content == 'a' or re.match(r'a_.*', message.content) != None:
+            formattedMsg = message.content.replace('a_', '')
             s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(LEFT_BUTTON)
             time.sleep(s_time)
