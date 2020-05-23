@@ -61,26 +61,26 @@ class Commands(commands.Cog):
         if message.channel.id != int(self.channel_id):
             return
 
-        if message.content == 'w' or re.match(r'w_.*', message.content) != None:
-            formattedMsg = message.content.replace('w_', '')
+        if message.content == 'u' or re.match(r'u_.*', message.content) != None:
+            formattedMsg = message.content.replace('u_', '')
             s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(UP_BUTTON)
             time.sleep(s_time)
             pyautogui.keyUp(UP_BUTTON)
-        elif message.content == 's' or re.match(r's_.*', message.content) != None:
-            formattedMsg = message.content.replace('s_', '')
+        elif message.content == 'd' or re.match(r'd_.*', message.content) != None:
+            formattedMsg = message.content.replace('d_', '')
             s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(DOWN_BUTTON)
             time.sleep(s_time)
             pyautogui.keyUp(DOWN_BUTTON)
-        elif message.content == 'd' or re.match(r'd_.*', message.content) != None:
-            formattedMsg = message.content.replace('d_', '')
+        elif message.content == 'r' or re.match(r'r_.*', message.content) != None:
+            formattedMsg = message.content.replace('r_', '')
             s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(RIGHT_BUTTON)
             time.sleep(s_time)
             pyautogui.keyUp(RIGHT_BUTTON)
-        elif message.content == 'a' or re.match(r'a_.*', message.content) != None:
-            formattedMsg = message.content.replace('a_', '')
+        elif message.content == 'l' or re.match(r'l_.*', message.content) != None:
+            formattedMsg = message.content.replace('l_', '')
             s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(LEFT_BUTTON)
             time.sleep(s_time)
@@ -111,15 +111,15 @@ class Commands(commands.Cog):
             time.sleep(s_time)
             pyautogui.keyUp(Y_BUTTON)
 
-        elif message.content == 'l' or re.match(r'l_.*', message.content) != None:
-            formattedMsg = message.content.replace('l_', '')
+        elif message.content == 'L' or re.match(r'L_.*', message.content) != None:
+            formattedMsg = message.content.replace('L_', '')
             s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(L_BUTTON)
             time.sleep(s_time)
             pyautogui.keyUp(L_BUTTON)
             
-        elif message.content == 'r' or re.match(r'r_.*', message.content) != None:
-            formattedMsg = message.content.replace('r_', '')
+        elif message.content == 'R' or re.match(r'R_.*', message.content) != None:
+            formattedMsg = message.content.replace('R_', '')
             s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
             pyautogui.keyDown(R_BUTTON)
             time.sleep(s_time)
