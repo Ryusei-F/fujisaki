@@ -49,34 +49,34 @@ class Commands(commands.Cog):
             return
         if message.channel.id != int(self.channel_id):
             return
-        await message.channel.send(message.content)
 
         if message.content == 'up':
+            pyautogui.typewrite('Hello world!\n', 0.1)
             pyautogui.press(UP_BUTTON, presses=1, interval=INTERVAL)
-        if message.content == 'down':
+        elif message.content == 'down':
             pyautogui.press(DOWN_BUTTON, presses=1, interval=INTERVAL)
-        if message.content == 'right':
+        elif message.content == 'right':
             pyautogui.press(RIGHT_BUTTON, presses=1, interval=INTERVAL)
-        if message.content == 'left':
+        elif message.content == 'left':
             pyautogui.press(LEFT_BUTTON, presses=1, interval=INTERVAL)
 
-        if message.content == 'a' or 'A':
+        elif message.content == 'a' or 'A':
             pyautogui.press(A_BUTTON, presses=1, interval=INTERVAL)
-        if message.content == 'b' or 'B':
+        elif message.content == 'b' or 'B':
             pyautogui.press(B_BUTTON, presses=1, interval=INTERVAL)
-        if message.content == 'x' or 'X':
+        elif message.content == 'x' or 'X':
             pyautogui.press(X_BUTTON, presses=1, interval=INTERVAL)
-        if message.content == 'y' or 'Y':
+        elif message.content == 'y' or 'Y':
             pyautogui.press(Y_BUTTON, presses=1, interval=INTERVAL)
 
-        if message.content == 'l' or 'L':
+        elif message.content == 'l' or 'L':
             pyautogui.press(L_BUTTON, presses=1, interval=INTERVAL)
-        if message.content == 'r' or 'R':
+        elif message.content == 'r' or 'R':
             pyautogui.press(R_BUTTON, presses=1, interval=INTERVAL)
 
-        if message.content == 'start':
+        elif message.content == 'start':
             pyautogui.press(START_BUTTON, presses=1, interval=INTERVAL)
-        if message.content == 'select':
+        elif message.content == 'select':
             pyautogui.press(SELECT_BUTTON, presses=1, interval=INTERVAL)
 
 
