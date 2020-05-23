@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 import discord
 import os
+import time
 import pyautogui
 
 from discord.ext import commands
@@ -19,6 +20,7 @@ SELECT_BUTTON='enter'
 L_BUTTON='a'
 R_BUTTON='r'
 INTERVAL=float(0.1)
+SLEEP_TIME=0.5
 
 class Commands(commands.Cog):
     def __init__(self, bot):
@@ -51,33 +53,68 @@ class Commands(commands.Cog):
             return
 
         if message.content == 'up':
-            pyautogui.typewrite('Hello world!\n', 0.1)
-            pyautogui.press(UP_BUTTON, presses=1, interval=INTERVAL)
+            pyautogui.keyDown(UP_BUTTON)
+            time.sleep(SLEEP_TIME)
+            pyautogui.keyUp(UP_BUTTON)
+            #pyautogui.press(UP_BUTTON, presses=1, interval=INTERVAL)
         elif message.content == 'down':
-            pyautogui.press(DOWN_BUTTON, presses=1, interval=INTERVAL)
+            pyautogui.keyDown(DOWN_BUTTON)
+            time.sleep(SLEEP_TIME)
+            pyautogui.keyUp(DOWN_BUTTON)
+            #pyautogui.press(DOWN_BUTTON, presses=1, interval=INTERVAL)
         elif message.content == 'right':
-            pyautogui.press(RIGHT_BUTTON, presses=1, interval=INTERVAL)
+            pyautogui.keyDown(RIGHT_BUTTON)
+            time.sleep(SLEEP_TIME)
+            pyautogui.keyUp(RIGHT_BUTTON)
+            #pyautogui.press(RIGHT_BUTTON, presses=1, interval=INTERVAL)
         elif message.content == 'left':
-            pyautogui.press(LEFT_BUTTON, presses=1, interval=INTERVAL)
+            pyautogui.keyDown(LEFT_BUTTON)
+            time.sleep(SLEEP_TIME)
+            pyautogui.keyUp(LEFT_BUTTON)
+            #pyautogui.press(LEFT_BUTTON, presses=1, interval=INTERVAL)
 
         elif message.content == 'a' or message.content == 'A':
-            pyautogui.press(A_BUTTON, presses=1, interval=INTERVAL)
+            pyautogui.keyDown(A_BUTTON)
+            time.sleep(SLEEP_TIME)
+            pyautogui.keyUp(A_BUTTON)
+            #pyautogui.press(A_BUTTON, presses=1, interval=INTERVAL)
         elif message.content == 'b' or message.content == 'B':
-            pyautogui.press(B_BUTTON, presses=1, interval=INTERVAL)
+            pyautogui.keyDown(B_BUTTON)
+            time.sleep(SLEEP_TIME)
+            pyautogui.keyUp(B_BUTTON)
+            #pyautogui.press(B_BUTTON, presses=1, interval=INTERVAL)
         elif message.content == 'x' or message.content == 'X':
-            pyautogui.press(X_BUTTON, presses=1, interval=INTERVAL)
+            pyautogui.keyDown(X_BUTTON)
+            time.sleep(SLEEP_TIME)
+            pyautogui.keyUp(X_BUTTON)
+            #pyautogui.press(X_BUTTON, presses=1, interval=INTERVAL)
         elif message.content == 'y' or message.content == 'Y':
-            pyautogui.press(Y_BUTTON, presses=1, interval=INTERVAL)
+            pyautogui.keyDown(Y_BUTTON)
+            time.sleep(SLEEP_TIME)
+            pyautogui.keyUp(Y_BUTTON)
+            #pyautogui.press(Y_BUTTON, presses=1, interval=INTERVAL)
 
         elif message.content == 'l' or message.content == 'L':
-            pyautogui.press(L_BUTTON, presses=1, interval=INTERVAL)
+            pyautogui.keyDown(L_BUTTON)
+            time.sleep(SLEEP_TIME)
+            pyautogui.keyUp(L_BUTTON)
+            #pyautogui.press(L_BUTTON, presses=1, interval=INTERVAL)
         elif message.content == 'r' or message.content == 'R':
-            pyautogui.press(R_BUTTON, presses=1, interval=INTERVAL)
+            pyautogui.keyDown(R_BUTTON)
+            time.sleep(SLEEP_TIME)
+            pyautogui.keyUp(R_BUTTON)
+            #pyautogui.press(R_BUTTON, presses=1, interval=INTERVAL)
 
         elif message.content == 'start':
-            pyautogui.press(START_BUTTON, presses=1, interval=INTERVAL)
+            pyautogui.keyDown(START_BUTTON)
+            time.sleep(SLEEP_TIME)
+            pyautogui.keyUp(START_BUTTON)
+            #pyautogui.press(START_BUTTON, presses=1, interval=INTERVAL)
         elif message.content == 'select':
-            pyautogui.press(SELECT_BUTTON, presses=1, interval=INTERVAL)
+            pyautogui.keyDown(SELECT_BUTTON)
+            time.sleep(SLEEP_TIME)
+            pyautogui.keyUp(SELECT_BUTTON)
+            #pyautogui.press(SELECT_BUTTON, presses=1, interval=INTERVAL)
 
 
     @commands.Cog.listener()
