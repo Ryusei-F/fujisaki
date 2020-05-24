@@ -35,7 +35,7 @@ BUTTON_LIST= {'w': 'UP_BUTTON', 'a': 'LEFT_BUTTON', 's':'DOWN_BUTTON', 'd':'RIGH
 def toNumber(arg, sleep_time):
     try:
         res = float(arg)
-        return res if res < 60.0 else sleep_time
+        return res if res <= 60.0 else sleep_time
     except ValueError:
         return sleep_time
 
