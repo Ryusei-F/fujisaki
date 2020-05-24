@@ -80,7 +80,12 @@ class Commands(commands.Cog):
     @commands.command()
     async def switchauto(self, ctx):
         if (ctx.channel.id == int(self.channel_id)):
-            self.auto_mode_flag = False if self.auto_mode_flag else True
+            if self.auto_mode_flag == False:
+                self.auto_mode_flag = True
+                await ctx.send("オートモードをオンにしたよ :heart:")
+            else:
+                self.auto_mode_flag = False
+                await ctx.send("オートモードをオフにしたよ :heart:")
 
     @commands.command()
     async def autobutton(self, ctx):
@@ -90,9 +95,10 @@ class Commands(commands.Cog):
                 self.auto_button = CORRESP_EMU_BUTTON[BUTTON_LIST[msg]][self.group[ctx.author.name]]
                 await ctx.send("オートボタンを" + BUTTON_LIST[msg] + "に設定したよ :heart:")
 
-    @tasks.loop(seconds=0.1)
+    @tasks.loop(seconds=0.0)
     async def automode(self):
         if self.auto_mode_flag:
+            print("task loop test")
             threading.Thread(
                 target=key_push,
                 args=('dummy_0', self.auto_button,self.sleep_time,
