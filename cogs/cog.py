@@ -12,10 +12,10 @@ from discord.ext import tasks
 # class, メンバにdefaultSEC, 詰めて書いて同時押し, spaceで連続押下, 1p2pオブジェクト, ボタン連打
 
 # Input Config
-UP_BUTTON =    ['1', 'e', 'g', 'shiftright']
-LEFT_BUTTON =  ['2', 'left', 'h', 'shiftleft']
-DOWN_BUTTON =  ['3', 'y', 'j', 'ctrlleft']
-RIGHT_BUTTON = ['4', 'y', 'k', 'ctrlright']
+UP_BUTTON =    ['1', 'e', 'g', 'up']
+LEFT_BUTTON =  ['2', 'left', 'h', '[']
+DOWN_BUTTON =  ['3', 't', 'j', 'down']
+RIGHT_BUTTON = ['4', 'y', 'k', 'right']
 B_BUTTON=      ['5', 'u', 'l', 'backspace']
 A_BUTTON=      [';', 'i', 'z', 'enter']
 Y_BUTTON=      [':', 'o', 'x', 'space']
