@@ -87,13 +87,15 @@ class Commands(commands.Cog):
     async def on_message(self, message):
         if message.author.bot:
             return
-        if message.channel.id != int(self.channel_id):
+        elif message.channel.id != int(self.channel_id):
             return
+        elif message.author.name not in self.group:
+            self.group[message.author.name] = 0
 
         if message.content == "thread":
             t = threading.Thread(target=test, args=('thread test', ))
             t.start()
-            await message.channel.send(toNumber("10", self.sleep_time))
+            await message.channel.send(str(toNumber("9", self.sleep_time)))
 
         if message.author.name in self.group and message.content.startswith('u'):
             await message.channel.send('u press')
