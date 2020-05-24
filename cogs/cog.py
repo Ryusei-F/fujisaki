@@ -37,7 +37,7 @@ def key_push(msg, button, sleep_time):
     print('msg ' + msg)
     print('button ' + button)
     print('sleep_time ' + str(sleep_time))
-    formattedMsg = (msg + '_' + sleep_time).split('_')[1]
+    formattedMsg = (msg + '_' + str(sleep_time)).split('_')[1]
     print('formattedMsg ' + formattedMsg)
     s_time = toNumber(formattedMsg, sleep_time)
     print('s_time' + str(s_time))
