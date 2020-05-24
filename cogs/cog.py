@@ -73,18 +73,7 @@ class Commands(commands.Cog):
     @commands.command()
     async def keymap(self, ctx):
         if (ctx.channel.id == int(self.channel_id)):
-            keystr = "UP    : w\n"
-                    +"DOWN  : s\n"
-                    +"LEFT  : a\n"
-                    +"RIGHT : d\n"
-                    +"A     : l\n"
-                    +"B     : k\n"
-                    +"X     : i\n"
-                    +"Y     : j\n"
-                    +"L     : u\n"
-                    +"R     : o\n"
-                    +"START : start\n"
-                    +"SELECT: select"
+            keystr = "UP    : w\nDOWN  : s\nLEFT  : a\nRIGHT : d\nA     : l\nB     : k\nX     : i\nY     : j\nL     : u\nR     : o\nSTART : start\nSELECT: select"
             embed = discord(title="key Mapping", description=keystr)
             await ctx.send(embed=embed)
 
