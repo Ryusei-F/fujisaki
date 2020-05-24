@@ -87,6 +87,9 @@ class Commands(commands.Cog):
         if message.channel.id != int(self.channel_id):
             return
 
+        if !message.author.name in self.group:
+            self.group[message.author.name] = 0
+
         if message.author.name in self.group and message.content.startswith('u'):
             threading.Thread(
                 target=key_push,
