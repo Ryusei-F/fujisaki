@@ -7,6 +7,7 @@ import re
 import threading
 
 from discord.ext import commands
+from discord.ext import tasks
 
 # class, メンバにdefaultSEC, 詰めて書いて同時押し, spaceで連続押下, 1p2pオブジェクト, ボタン連打
 
@@ -24,11 +25,17 @@ SELECT_BUTTON= ['enter', 'o']
 L_BUTTON= ['a', 'y']
 R_BUTTON= ['s', 'u']
 SLEEP_TIME=0.0
+CORRESP_EMU_BUTTON= {'UP_BUTTON': UP_BUTTON, 'LEFT_BUTTON': LEFT_BUTTON, 'DOWN_BUTTON': DOWN_BUTTON, 'RIGHT_BUTTON': RIGHT_BUTTON,
+                     'A_BUTTON': A_BUTTON, 'B_BUTTON': B_BUTTON, 'Y_BUTTON': Y_BUTTON, 'X_BUTTON': X_BUTTON,
+                     'START_BUTTON': START_BUTTON, 'SELECT_BUTTON': SELECT_BUTTON, 'L_BUTTON': L_BUTTON, 'R_BUTTON': R_BUTTON}
+BUTTON_LIST= {'u': 'UP_BUTTON', 'l': 'LEFT_BUTTON', 'd':'DOWN_BUTTON', 'r':'RIGHT_BUTTON',
+              'a': 'A_BUTTON', 'b': 'B_BUTTON', 'x': 'X_BUTTON', 'y': 'Y_BUTTON',
+              'start': 'START_BUTTON', 'select': 'SELECT', 'L': 'L_BUTTON', 'R': 'R_BUTTON'}
 
 def toNumber(arg, sleep_time):
     try:
         res = float(arg)
-        return res if res < 10.0 else sleep_time
+        return res if res < 60.0 else sleep_time
     except ValueError:
         return sleep_time
 
@@ -39,14 +46,12 @@ def key_push(msg, button, sleep_time):
     time.sleep(s_time)
     pyautogui.keyUp(button)
 
-def test(msg):
-    print(msg)
-
 class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.channel_id = os.getenv('DISCORD_CHANNEL_ID')
         self.auto_mode_flag = False
+        self.auto_button = 'v'
         self.group = {}
         self.sleep_time = SLEEP_TIME
 
@@ -54,15 +59,37 @@ class Commands(commands.Cog):
     async def team(self, ctx):
         if ctx.channel.id != int(self.channel_id):
             return
-        list1 = ""
-        list2 = ""
+        lst = ["", "", "", ""]
         for key in self.group:
-            list1 += str(key) + "\n" if self.group[key] == 0 else ""
-            list2 += str(key) + "\n" if self.group[key] == 1 else ""
+            for i in range(4):
+                lst[i] += str(key) + "\n" if self.group[key] == i else ""
         embed = discord.Embed(title="TEAM LIST")
-        embed.add_field(name="1P", value=list1 if list1 else ':heart:')
-        embed.add_field(name="2P", value=list2 if list2 else ':blue_heart:')
+        embed.add_field(name="1P", value=lst[0] if lst[0] else ':heart:')
+        embed.add_field(name="2P", value=lst[1] if lst[1] else ':blue_heart:')
+        embed.add_field(name='3P', value=lst[2] if lst[2] else ':yellow_heart:')
+        embed.add_field(name='4P', value=lst[3] if lst[3] else ':purple_heart:')
         await ctx.send(embed = embed)
+
+    @commands.command()
+    async def switchauto(self, ctx):
+        if (ctx.channel.id == int(self.channel_id)):
+            self.auto_mode_flag = False if self.auto_mode_flag else True
+
+    @commands.command()
+    async def autobutton(self, ctx):
+        if (ctx.channel.id == int(self.channel_id)) and ctx.author.name in self.group:
+            msg = (ctx.message.content + ' a').split(' ')[1]
+            if msg in BUTTON_LIST:
+                self.auto_button = CORRESP_EMU_BUTTON[BUTTON_LIST[msg]][self.group[ctx.author.name]]
+                await ctx.send("オートボタンを" + BUTTON_LIST[msg] + "に設定したよ :heart:")      
+
+    @tasks.loop(seconds=0.1)
+    async def automode(self):
+        if self.auto_mode_flag:
+            threading.Thread(
+                target=key_push,
+                args=('dummy_0', self.auto_button,self.sleep_time,
+            )).start()
 
     @commands.command()
     async def setsec(self, ctx):
@@ -91,11 +118,6 @@ class Commands(commands.Cog):
             return
         elif message.author.name not in self.group:
             self.group[message.author.name] = 0
-
-        if message.content == "thread":
-            t = threading.Thread(target=test, args=('thread test', ))
-            t.start()
-            await message.channel.send(str(toNumber("9", self.sleep_time)))
 
         if message.content.startswith('u'):
             threading.Thread(
