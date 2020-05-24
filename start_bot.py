@@ -23,5 +23,5 @@ class MyBot(commands.Bot):
 if __name__ == '__main__':
     load_dotenv()
     discord_token = os.getenv('DISCORD_TOKEN')
-    bot = MyBot(command_prefix='$')
+    bot = MyBot(command_prefix='')
     bot.run(discord_token)
