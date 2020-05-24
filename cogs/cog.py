@@ -34,7 +34,7 @@ def isNumber(arg):
         return False
 
 def key_push(msg, button):
-    formattedMsg = msg.split('_')[1]
+    formattedMsg = (msg + '_0').split('_')[1]
     s_time = float(formattedMsg) if isNumber(formattedMsg) else SLEEP_TIME
     pyautogui.keyDown(button)
     time.sleep(s_time)
@@ -54,11 +54,11 @@ class Commands(commands.Cog):
         list1 = ""
         list2 = ""
         for key in self.group:
-            list1 += str(key) + " " if self.group[key] == 0 else ""
-            list2 += str(key) + " " if self.group[key] == 1 else ""
+            list1 += str(key) + "\n" if self.group[key] == 0 else ""
+            list2 += str(key) + "\n" if self.group[key] == 1 else ""
         embed = discord.Embed(title="TEAM LIST")
-        embed.add_field(name="1P", value=list1)
-        embed.add_field(name="2P", value=list2)
+        embed.add_field(name="1P", value=list1 if list1 else 'だれもいないよ')
+        embed.add_field(name="2P", value=list2 if list2 else "だれもいないよ")
         await ctx.send(embed = embed)
 
     @commands.command()
@@ -76,69 +76,69 @@ class Commands(commands.Cog):
             return
         if message.content == 'join1':
             self.group[message.author.name] = 0
-            message.send(message.author.name + ' joined 1P')
+            await message.channel.send(str(message.author.name) + ' joined 1P')
         elif message.content == 'join2':
             self.group[message.author.name] = 1
-            message.send(message.author.name + ' joined 2P.')
+            await message.channel.send(str(message.author.name) + ' joined 2P.')
 
-        if message.author.name in self.group and message.content.startwith('u'):
+        if message.author.name in self.group and message.content.startswith('u'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, UP_BUTTON[self.group[message.author.name]],
             )).start()
-        elif message.author.name in self.group and message.content.startwith('d'):
+        elif message.author.name in self.group and message.content.startswith('d'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, DOWN_BUTTON[self.group[message.author.name]],
             )).start()
-        elif message.author.name in self.group and message.content.startwith('l'):
+        elif message.author.name in self.group and message.content.startswith('l'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, LEFT_BUTTON[self.group[message.author.name]],
             )).start()
-        elif message.author.name in self.group and message.content.startwith('r'):
+        elif message.author.name in self.group and message.content.startswith('r'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, RIGHT_BUTTON[self.group[message.author.name]],
             )).start()
 
-        elif message.author.name in self.group and message.content.startwith('a'):
+        elif message.author.name in self.group and message.content.startswith('a'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, A_BUTTON[self.group[message.author.name]],
             )).start()
-        elif message.author.name in self.group and message.content.startwith('b'):
+        elif message.author.name in self.group and message.content.startswith('b'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, B_BUTTON[self.group[message.author.name]],
             )).start()
-        elif message.author.name in self.group and message.content.startwith('x'):
+        elif message.author.name in self.group and message.content.startswith('x'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, X_BUTTON[self.group[message.author.name]],
             )).start()
-        elif message.author.name in self.group and message.content.startwith('y'):
+        elif message.author.name in self.group and message.content.startswith('y'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, Y_BUTTON[self.group[message.author.name]],
             )).start()
-        elif message.author.name in self.group and message.content.startwith('L'):
+        elif message.author.name in self.group and message.content.startswith('L'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, L_BUTTON[self.group[message.author.name]],
             )).start()
-        elif message.author.name in self.group and message.content.startwith('R'):
+        elif message.author.name in self.group and message.content.startswith('R'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, R_BUTTON[self.group[message.author.name]],
             )).start()
 
-        elif message.author.name in self.group and message.content.startwith('start'):
+        elif message.author.name in self.group and message.content == 'start':
             threading.Thread(
                 target=key_push,
                 args=(message.content, START_BUTTON[self.group[message.author.name]],
             )).start()
-        elif message.author.name in self.group and message.content.startwith('select'):
+        elif message.author.name in self.group and message.content == 'select':
             threading.Thread(
                 target=key_push,
                 args=(message.content, SELECT_BUTTON[self.group[message.author.name]],
