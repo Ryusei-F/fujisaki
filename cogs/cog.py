@@ -22,7 +22,7 @@ X_BUTTON= ['d', 't']
 START_BUTTON= ['space', 'p']
 SELECT_BUTTON= ['enter', 'o']
 L_BUTTON= ['a', 'y']
-R_BUTTON= ['r', 'u']
+R_BUTTON= ['s', 'u']
 SLEEP_TIME=0.0
 
 def toNumber(arg, sleep_time):
@@ -33,14 +33,8 @@ def toNumber(arg, sleep_time):
         return sleep_time
 
 def key_push(msg, button, sleep_time):
-    print('key_push start')
-    print('msg ' + msg)
-    print('button ' + button)
-    print('sleep_time ' + str(sleep_time))
     formattedMsg = (msg + '_' + str(sleep_time)).split('_')[1]
-    print('formattedMsg ' + formattedMsg)
     s_time = toNumber(formattedMsg, sleep_time)
-    print('s_time' + str(s_time))
     pyautogui.keyDown(button)
     time.sleep(s_time)
     pyautogui.keyUp(button)
@@ -103,72 +97,87 @@ class Commands(commands.Cog):
             t.start()
             await message.channel.send(str(toNumber("9", self.sleep_time)))
 
-        if message.author.name in self.group and message.content.startswith('u'):
-            await message.channel.send('u press')
-            await message.channel.send(UP_BUTTON[self.group[message.author.name]])
-            await message.channel.send(str(self.sleep_time))
-
+        if message.content.startswith('u'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, UP_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.author.name in self.group and message.content.startswith('d'):
+        elif message.content.startswith('d'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, DOWN_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.author.name in self.group and message.content.startswith('l'):
+        elif message.content.startswith('l'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, LEFT_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.author.name in self.group and message.content.startswith('r'):
+        elif message.content.startswith('r'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, RIGHT_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
 
-        elif message.author.name in self.group and message.content.startswith('a'):
+        elif message.content.startswith('a'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, A_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.author.name in self.group and message.content.startswith('b'):
+        elif message.content.startswith('b'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, B_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.author.name in self.group and message.content.startswith('x'):
+        elif message.content.startswith('x'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, X_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.author.name in self.group and message.content.startswith('y'):
+        elif message.content.startswith('y'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, Y_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.author.name in self.group and message.content.startswith('L'):
+        elif message.content.startswith('L'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, L_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.author.name in self.group and message.content.startswith('R'):
+        elif message.content.startswith('R'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, R_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
 
-        elif message.author.name in self.group and message.content == 'start':
+        elif message.content == 'start':
             threading.Thread(
                 target=key_push,
                 args=(message.content, START_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.author.name in self.group and message.content == 'select':
+        elif message.content == 'select':
             threading.Thread(
                 target=key_push,
                 args=(message.content, SELECT_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
+        elif message.content == '236p':
+            pidx = self.group[message.author.name]
+            pyautogui.keyDown(DOWN_BUTTON[pidx])
+            pyautogui.keyDown(RIGHT_BUTTON[pidx])
+            pyautogui.keyUp(DOWN_BUTTON[pidx])
+            #pyautogui.hotkey(DOWN_BUTTON[pidx], RIGHT_BUTTON[pidx])
+            pyautogui.keyDown(Y_BUTTON[pidx])
+            pyautogui.keyUp(RIGHT_BUTTON[pidx])
+            pyautogui.keyUp(Y_BUTTON[pidx])
+        elif message.content ==  '214p':
+            pidx = self.group[message.author.name]
+            pyautogui.keyDown(DOWN_BUTTON[pidx])
+            pyautogui.keyDown(LEFT_BUTTON[pidx])
+            pyautogui.keyUp(DOWN_BUTTON[pidx])
+            #pyautogui.hotkey(DOWN_BUTTON[pidx], RIGHT_BUTTON[pidx])
+            pyautogui.keyDown(Y_BUTTON[pidx])
+            pyautogui.keyUp(LEFT_BUTTON[pidx])
+            pyautogui.keyUp(Y_BUTTON[pidx])
+
 
     @commands.Cog.listener()
     async def on_ready(self):
