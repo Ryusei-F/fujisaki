@@ -74,7 +74,7 @@ class Commands(commands.Cog):
     async def keymap(self, ctx):
         if (ctx.channel.id == int(self.channel_id)):
             keystr = "UP    : w\nDOWN  : s\nLEFT  : a\nRIGHT : d\nA     : l\nB     : k\nX     : i\nY     : j\nL     : u\nR     : o\nSTART : start\nSELECT: select"
-            embed = discord(title="key Mapping", description=keystr)
+            embed = discord.Embed(title="key Mapping", description=keystr)
             await ctx.send(embed=embed)
 
     @commands.command()
@@ -127,7 +127,7 @@ class Commands(commands.Cog):
     async def join4(self, ctx):
         if (ctx.channel.id == int(self.channel_id)):
             self.group[ctx.author.name] = 3
-            await ctx.send(str(ctx.author.name) + 'くんが3Pになったよ :perple_heart:')
+            await ctx.send(str(ctx.author.name) + 'くんが4Pになったよ :perple_heart:')
 
     @commands.Cog.listener()
     async def on_message(self, message):
