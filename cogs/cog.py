@@ -28,9 +28,9 @@ SLEEP_TIME=0.0
 CORRESP_EMU_BUTTON= {'UP_BUTTON': UP_BUTTON, 'LEFT_BUTTON': LEFT_BUTTON, 'DOWN_BUTTON': DOWN_BUTTON, 'RIGHT_BUTTON': RIGHT_BUTTON,
                      'A_BUTTON': A_BUTTON, 'B_BUTTON': B_BUTTON, 'Y_BUTTON': Y_BUTTON, 'X_BUTTON': X_BUTTON,
                      'START_BUTTON': START_BUTTON, 'SELECT_BUTTON': SELECT_BUTTON, 'L_BUTTON': L_BUTTON, 'R_BUTTON': R_BUTTON}
-BUTTON_LIST= {'u': 'UP_BUTTON', 'l': 'LEFT_BUTTON', 'd':'DOWN_BUTTON', 'r':'RIGHT_BUTTON',
-              'a': 'A_BUTTON', 'b': 'B_BUTTON', 'x': 'X_BUTTON', 'y': 'Y_BUTTON',
-              'start': 'START_BUTTON', 'select': 'SELECT', 'L': 'L_BUTTON', 'R': 'R_BUTTON'}
+BUTTON_LIST= {'w': 'UP_BUTTON', 'a': 'LEFT_BUTTON', 's':'DOWN_BUTTON', 'd':'RIGHT_BUTTON',
+              'l': 'A_BUTTON', 'k': 'B_BUTTON', 'i': 'X_BUTTON', 'j': 'Y_BUTTON',
+              'start': 'START_BUTTON', 'select': 'SELECT', 'u': 'L_BUTTON', 'o': 'R_BUTTON'}
 
 def toNumber(arg, sleep_time):
     try:
@@ -69,6 +69,24 @@ class Commands(commands.Cog):
         embed.add_field(name='3P', value=lst[2] if lst[2] else ':yellow_heart:')
         embed.add_field(name='4P', value=lst[3] if lst[3] else ':purple_heart:')
         await ctx.send(embed = embed)
+    
+    @commands.command()
+    async def keymap(self, ctx)
+        if (ctx.channel.id == int(self.channel_id)):
+            keystr = "UP    : w\n"
+                    +"DOWN  : s\n"
+                    +"LEFT  : a\n"
+                    +"RIGHT : d\n"
+                    +"A     : l\n"
+                    +"B     : k\n"
+                    +"X     : i\n"
+                    +"Y     : j\n"
+                    +"L     : u\n"
+                    +"R     : o\n"
+                    +"START : start\n"
+                    +"SELECT: select"
+            embed = discord(title="key Mapping", description=keystr)
+            await ctx.send(embed=embed)
 
     @commands.command()
     async def switchauto(self, ctx):
@@ -152,32 +170,32 @@ class Commands(commands.Cog):
                 args=(message.content, RIGHT_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
 
-        elif message.content.startswith('1'):
+        elif message.content.startswith('l'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, A_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.content.startswith('2'):
+        elif message.content.startswith('k'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, B_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.content.startswith('3'):
+        elif message.content.startswith('i'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, X_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.content.startswith('4'):
+        elif message.content.startswith('j'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, Y_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.content.startswith('r'):
+        elif message.content.startswith('u'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, L_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.content.startswith('l'):
+        elif message.content.startswith('o'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, R_BUTTON[self.group[message.author.name]],self.sleep_time,
