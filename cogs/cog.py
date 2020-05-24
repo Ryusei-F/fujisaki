@@ -12,18 +12,18 @@ from discord.ext import tasks
 # class, メンバにdefaultSEC, 詰めて書いて同時押し, spaceで連続押下, 1p2pオブジェクト, ボタン連打
 
 # Input Config
-UP_BUTTON= ['up', 'i']
-LEFT_BUTTON= ['left', 'j']
-DOWN_BUTTON= ['down', 'k']
-RIGHT_BUTTON= ['right', 'l']
-B_BUTTON= ['c', 'g']
-A_BUTTON= ['v', 'h']
-Y_BUTTON= ['x', 'f']
-X_BUTTON= ['d', 't']
-START_BUTTON= ['space', 'p']
-SELECT_BUTTON= ['enter', 'o']
-L_BUTTON= ['a', 'y']
-R_BUTTON= ['s', 'u']
+UP_BUTTON =    ['1', 'e', 'g', 'shiftright']
+LEFT_BUTTON =  ['2', 'left', 'h', 'shiftleft']
+DOWN_BUTTON =  ['3', 'y', 'j', 'ctrlleft']
+RIGHT_BUTTON = ['4', 'y', 'k', 'ctrlright']
+B_BUTTON=      ['5', 'u', 'l', 'backspace']
+A_BUTTON=      [';', 'i', 'z', 'enter']
+Y_BUTTON=      [':', 'o', 'x', 'space']
+X_BUTTON=      ['8', 'p', 'c', 'home']
+START_BUTTON=  ['9', 'a', 'v', 'pageup']
+SELECT_BUTTON= ['0', 's', 'b', 'pagedown']
+L_BUTTON=      ['q', 'd', 'n', 'enter']
+R_BUTTON=      ['w', 'f', 'm', 'delete']
 SLEEP_TIME=0.0
 CORRESP_EMU_BUTTON= {'UP_BUTTON': UP_BUTTON, 'LEFT_BUTTON': LEFT_BUTTON, 'DOWN_BUTTON': DOWN_BUTTON, 'RIGHT_BUTTON': RIGHT_BUTTON,
                      'A_BUTTON': A_BUTTON, 'B_BUTTON': B_BUTTON, 'Y_BUTTON': Y_BUTTON, 'X_BUTTON': X_BUTTON,
@@ -81,7 +81,7 @@ class Commands(commands.Cog):
             msg = (ctx.message.content + ' a').split(' ')[1]
             if msg in BUTTON_LIST:
                 self.auto_button = CORRESP_EMU_BUTTON[BUTTON_LIST[msg]][self.group[ctx.author.name]]
-                await ctx.send("オートボタンを" + BUTTON_LIST[msg] + "に設定したよ :heart:")      
+                await ctx.send("オートボタンを" + BUTTON_LIST[msg] + "に設定したよ :heart:")
 
     @tasks.loop(seconds=0.1)
     async def automode(self):
@@ -110,6 +110,18 @@ class Commands(commands.Cog):
             self.group[ctx.author.name] = 1
             await ctx.send(str(ctx.author.name) + 'くんが2Pになったよ :blue_heart:')
 
+    @commands.command()
+    async def join3(self, ctx):
+        if (ctx.channel.id == int(self.channel_id)):
+            self.group[ctx.author.name] = 2
+            await ctx.send(str(ctx.author.name) + 'くんが3Pになったよ :yellow_heart:')
+    
+    @commands.command()
+    async def join4(self, ctx):
+        if (ctx.channel.id == int(self.channel_id)):
+            self.group[ctx.author.name] = 3
+            await ctx.send(str(ctx.author.name) + 'くんが3Pになったよ :perple_heart:')
+
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author.bot:
@@ -119,53 +131,53 @@ class Commands(commands.Cog):
         elif message.author.name not in self.group:
             self.group[message.author.name] = 0
 
-        if message.content.startswith('u'):
+        if message.content.startswith('w'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, UP_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.content.startswith('d'):
+        elif message.content.startswith('s'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, DOWN_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.content.startswith('l'):
+        elif message.content.startswith('a'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, LEFT_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.content.startswith('r'):
+        elif message.content.startswith('d'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, RIGHT_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
 
-        elif message.content.startswith('a'):
+        elif message.content.startswith('1'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, A_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.content.startswith('b'):
+        elif message.content.startswith('2'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, B_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.content.startswith('x'):
+        elif message.content.startswith('3'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, X_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.content.startswith('y'):
+        elif message.content.startswith('4'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, Y_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.content.startswith('L'):
+        elif message.content.startswith('r'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, L_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.content.startswith('R'):
+        elif message.content.startswith('l'):
             threading.Thread(
                 target=key_push,
                 args=(message.content, R_BUTTON[self.group[message.author.name]],self.sleep_time,
