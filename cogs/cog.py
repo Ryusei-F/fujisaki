@@ -39,6 +39,9 @@ def key_push(msg, button, sleep_time):
     time.sleep(s_time)
     pyautogui.keyUp(button)
 
+def test(msg):
+    print(msg)
+
 class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -87,7 +90,16 @@ class Commands(commands.Cog):
         if message.channel.id != int(self.channel_id):
             return
 
+        if message.content == "thread":
+            t = threading.Thread(target=test, args=('thread test', ))
+            t.start()
+            await message.channel.send(toNumber("10", self.sleep_time))
+
         if message.author.name in self.group and message.content.startswith('u'):
+            await message.channel.send('u press')
+            await message.channel.send(UP_BUTTON[self.group[message.author.name]])
+            await message.channel.send(str(self.sleep_time))
+
             threading.Thread(
                 target=key_push,
                 args=(message.content, UP_BUTTON[self.group[message.author.name]],self.sleep_time,
