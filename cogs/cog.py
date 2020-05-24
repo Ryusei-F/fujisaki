@@ -23,13 +23,12 @@ START_BUTTON='space'
 SELECT_BUTTON='enter'
 L_BUTTON='a'
 R_BUTTON='r'
-INTERVAL=float(0.1)
 SLEEP_TIME=0.0
 
 def isNumber(arg):
     try:
         res = float(arg)
-        return res if res < 10.0 else 0
+        return res if res < 10.0 else 0.0
     except ValueError:
         return False
 
@@ -65,55 +64,54 @@ class Commands(commands.Cog):
         if message.channel.id != int(self.channel_id):
             return
 
-        if message.content.startwith('u'):
+        if  message.content.startwith('u'):
             threadA = threading.Thread(target=key_push, args=(message.content, UP_BUTTON,))
             threadA.start()
 
-        if message.content.startwith('d'):
+        elif message.content.startwith('d'):
             threadA = threading.Thread(target=key_push, args=(message.content, DOWN_BUTTON,))
             threadA.start()
         
-        if message.content.startwith('r'):
+        elif message.content.startwith('r'):
             threadA = threading.Thread(target=key_push, args=(message.content, RIGHT_BUTTON,))
             threadA.start()
 
-        if message.content.startwith('l'):
+        elif message.content.startwith('l'):
             threadA = threading.Thread(target=key_push, args=(message.content, LEFT_BUTTON,))
             threadA.start()
 
-        if message.content.startwith('a'):
+        elif message.content.startwith('a'):
             threadA = threading.Thread(target=key_push, args=(message.content, A_BUTTON,))
             threadA.start()
 
-        if message.content.startwith('b'):
+        elif message.content.startwith('b'):
             threadA = threading.Thread(target=key_push, args=(message.content, B_BUTTON,))
             threadA.start()
 
-        if message.content.startwith('x'):
+        elif message.content.startwith('x'):
             threadA = threading.Thread(target=key_push, args=(message.content, X_BUTTON,))
             threadA.start()
 
-        if message.content.startwith('y'):
+        elif message.content.startwith('y'):
             threadA = threading.Thread(target=key_push, args=(message.content, Y_BUTTON,))
             threadA.start()
 
-
-        if message.content.startwith('L'):
+        elif message.content.startwith('L'):
             threadA = threading.Thread(target=key_push, args=(message.content, L_BUTTON,))
             threadA.start()
 
-        if message.content.startwith('R'):
+        elif message.content.startwith('R'):
             threadA = threading.Thread(target=key_push, args=(message.content, R_BUTTON,))
             threadA.start()
 
-        if message.content.startwith('start'):
+        elif message.content.startwith('start'):
             threadA = threading.Thread(target=key_push, args=(message.content, START_BUTTON,))
             threadA.start()
 
-        if message.content.startwith('select'):
+        elif message.content.startwith('select'):
             threadA = threading.Thread(target=key_push, args=(message.content, SELECT_BUTTON,))
             threadA.start()
-        
+
     @commands.Cog.listener()
     async def on_ready(self):
         print('Connected to Discord.')
