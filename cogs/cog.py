@@ -51,7 +51,7 @@ class Commands(commands.Cog):
         self.bot = bot
         self.channel_id = os.getenv('DISCORD_CHANNEL_ID')
         self.auto_mode_flag = False
-        self.auto_button = 'v'
+        self.auto_button = ';'
         self.group = {}
         self.sleep_time = SLEEP_TIME
 
