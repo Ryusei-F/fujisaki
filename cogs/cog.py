@@ -71,7 +71,7 @@ class Commands(commands.Cog):
         await ctx.send(embed = embed)
     
     @commands.command()
-    async def keymap(self, ctx)
+    async def keymap(self, ctx):
         if (ctx.channel.id == int(self.channel_id)):
             keystr = "UP    : w\n"
                     +"DOWN  : s\n"
