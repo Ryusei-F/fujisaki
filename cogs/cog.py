@@ -76,11 +76,9 @@ class Commands(commands.Cog):
         self.sorted_button_list = BUTTON_LIST
         self.switchauto
 
-    #def cog_unload(self):
-    #    self.automode.cancel()
-
     @commands.command()
     async def team(self, ctx):
+        """チームリストの表示"""
         if ctx.channel.id != int(self.channel_id):
             return
         lst = ["", "", "", ""]
@@ -110,7 +108,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def changekey(self, ctx):
-        """キー割り当ての変更 (!changekey <アルファベット1文字> <アルファベット1文字>)"""
+        """キー割り当ての変更 (!changekey <a-Z> <a-Z>)"""
         if (ctx.channel.id == int(self.channel_id)):
             if re.match(r'.changekey\s[a-zA-Z]\s[a-zA-Z]', ctx.message.content):
                 if ctx.message.content.split(' ')[1] in self.button_dict and ctx.message.content.split(' ')[2] not in self.button_dict:
@@ -119,7 +117,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def attack(self, ctx):
-        """相手のボタンを押す (!attack <割り当てキー> <プレイヤー番号>)"""
+        """相手のボタンを押す (!attack <キー> <P番号>)"""
         if (ctx.channel.id == int(self.channel_id)):
             if re.match(r'.attack\s[a-zA-Z]\s[1-4]', ctx.message.content):
                 button = ctx.message.content.split(' ')[1]
@@ -139,7 +137,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def automode(self, ctx):
-        """オートボタンに設定されているボタンを連打する(on/off)"""
+        """オートボタンを連打する(on/off)"""
         if (ctx.channel.id == int(self.channel_id)):
             if self.auto_mode_flag == False:
                 self.switchauto.start()
@@ -156,7 +154,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def autobutton(self, ctx):
-        """オートボタンの設定 (!autobutton <割り当てキー>"""
+        """オートボタンの設定 (!autobutton <キー>)"""
         if (ctx.channel.id == int(self.channel_id)) and ctx.author.name in self.group:
             msg = (ctx.message.content + ' l').split(' ')[1]
             if msg in self.button_dict:
