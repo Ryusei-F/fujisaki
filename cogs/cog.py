@@ -144,7 +144,7 @@ class Commands(commands.Cog):
                 self.auto_button = self.keyconf_dict[self.button_dict[msg]][self.group[ctx.author.name]]
                 await ctx.send("オートボタンを" + self.group[ctx.author.name] + "Pの" + self.button_dict[msg] + "に設定したよ :heart:")
 
-    @tasks.loop(seconds=3.2)
+    @tasks.loop(seconds=0.2)
     async def switchauto(self):
         threading.Thread(
             target=key_push,
@@ -265,7 +265,6 @@ class Commands(commands.Cog):
             pyautogui.keyDown(DOWN_BUTTON[pidx])
             pyautogui.keyDown(RIGHT_BUTTON[pidx])
             pyautogui.keyUp(DOWN_BUTTON[pidx])
-            #pyautogui.hotkey(DOWN_BUTTON[pidx], RIGHT_BUTTON[pidx])
             pyautogui.keyDown(Y_BUTTON[pidx])
             pyautogui.keyUp(RIGHT_BUTTON[pidx])
             pyautogui.keyUp(Y_BUTTON[pidx])
@@ -274,7 +273,6 @@ class Commands(commands.Cog):
             pyautogui.keyDown(DOWN_BUTTON[pidx])
             pyautogui.keyDown(LEFT_BUTTON[pidx])
             pyautogui.keyUp(DOWN_BUTTON[pidx])
-            #pyautogui.hotkey(DOWN_BUTTON[pidx], RIGHT_BUTTON[pidx])
             pyautogui.keyDown(Y_BUTTON[pidx])
             pyautogui.keyUp(LEFT_BUTTON[pidx])
             pyautogui.keyUp(Y_BUTTON[pidx])
