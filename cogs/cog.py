@@ -116,6 +116,18 @@ class Commands(commands.Cog):
                     await ctx.send('{} を {} に設定したよ :heart:'.format(self.button_dict[ctx.message.content.split(' ')[2]], ctx.message.content.split(' ')[2]))
 
     @commands.command()
+    async def attack(self, ctx):
+        if (ctx.channel.id == int(self.channel_id)):
+            if re.match(r'.attack\s[a-zA-Z]\s[1-4]', ctx.message.content):
+                button = ctx.message.content.split(' ')[1]
+                group_num = ctx.message.content.split(' ')[2]
+                attack_button = self.keyconf_dict[self.button_dict[button]][group_num]
+                threading.Thread(
+                    target=key_push,
+                    args=('dummy_0', attack_button,self.sleep_time,
+                )).start()
+
+    @commands.command()
     async def resetkey(self, ctx):
         self.button_dict = BUTTON_DICT
         await ctx.send('キー設定をデフォルト値に設定したよ :heart:')
