@@ -6,8 +6,7 @@ import pyautogui
 import re
 import threading
 
-from discord.ext import commands
-from discord.ext import tasks
+from discord.ext import tasks, commands
 
 # class, メンバにdefaultSEC, 詰めて書いて同時押し, spaceで連続押下, 1p2pオブジェクト, ボタン連打
 
@@ -24,27 +23,45 @@ START_BUTTON=  ['9', 'a', 'v', 'pageup']
 SELECT_BUTTON= ['0', 's', 'b', 'pagedown']
 L_BUTTON=      ['q', 'd', 'n', 'enter']
 R_BUTTON=      ['w', 'f', 'm', 'delete']
-SLEEP_TIME=0.0
-CORRESP_EMU_BUTTON= {'UP_BUTTON': UP_BUTTON, 'LEFT_BUTTON': LEFT_BUTTON, 'DOWN_BUTTON': DOWN_BUTTON, 'RIGHT_BUTTON': RIGHT_BUTTON,
+DEFAULT_SLEEP_TIME=0.0
+KEYCONF_DICT= {'UP_BUTTON': UP_BUTTON, 'LEFT_BUTTON': LEFT_BUTTON, 'DOWN_BUTTON': DOWN_BUTTON, 'RIGHT_BUTTON': RIGHT_BUTTON,
                      'A_BUTTON': A_BUTTON, 'B_BUTTON': B_BUTTON, 'Y_BUTTON': Y_BUTTON, 'X_BUTTON': X_BUTTON,
                      'START_BUTTON': START_BUTTON, 'SELECT_BUTTON': SELECT_BUTTON, 'L_BUTTON': L_BUTTON, 'R_BUTTON': R_BUTTON}
-BUTTON_LIST= {'w': 'UP_BUTTON', 'a': 'LEFT_BUTTON', 's':'DOWN_BUTTON', 'd':'RIGHT_BUTTON',
+BUTTON_DICT= {'w': 'UP_BUTTON', 'a': 'LEFT_BUTTON', 's':'DOWN_BUTTON', 'd':'RIGHT_BUTTON',
               'l': 'A_BUTTON', 'k': 'B_BUTTON', 'i': 'X_BUTTON', 'j': 'Y_BUTTON',
-              'start': 'START_BUTTON', 'select': 'SELECT', 'u': 'L_BUTTON', 'o': 'R_BUTTON'}
+              'start': 'START_BUTTON', 'select': 'SELECT_BUTTON', 'u': 'L_BUTTON', 'o': 'R_BUTTON'}
+BUTTON_LIST= ['UP_BUTTON', 'LEFT_BUTTON', 'DOWN_BUTTON', 'RIGHT_BUTTON',
+              'A_BUTTON', 'B_BUTTON', 'X_BUTTON', 'Y_BUTTON',
+              'START_BUTTON', 'SELECT_BUTTON', 'L_BUTTON', 'R_BUTTON']
 
-def toNumber(arg, sleep_time):
+def toNumber(arg):
     try:
         res = float(arg)
-        return res if res <= 60.0 else sleep_time
+        return res if res <= 30.0 else DEFAULT_SLEEP_TIME
     except ValueError:
-        return sleep_time
+        return DEFAULT_SLEEP_TIME
 
 def key_push(msg, button, sleep_time):
     formattedMsg = (msg + '_' + str(sleep_time)).split('_')[1]
-    s_time = toNumber(formattedMsg, sleep_time)
+    s_time = toNumber(formattedMsg)
     pyautogui.keyDown(button)
     time.sleep(s_time)
     pyautogui.keyUp(button)
+
+# async key_push for array
+def key_push_of_array(msg, group_num, sleep_time, keyconf_dict, button_dict):
+    keyarray = list(msg.split(' ')[0])
+    #print('msg:' + msg + ',group_num:' + str(group_num))
+    s_time = toNumber((msg + ' ' + str(sleep_time)).split(' ')[1])
+    for key in keyarray:
+        if key in button_dict:
+            kmap = keyconf_dict[button_dict[key]][group_num]
+            pyautogui.keyDown(kmap)
+            time.sleep(s_time)
+            pyautogui.keyUp(kmap)
+            # test
+            #print("グループ" + str(group_num) + "が" + kmap + "を" + str(s_time) + "秒間おしたよ")
+
 
 class Commands(commands.Cog):
     def __init__(self, bot):
@@ -53,7 +70,14 @@ class Commands(commands.Cog):
         self.auto_mode_flag = False
         self.auto_button = ';'
         self.group = {}
-        self.sleep_time = SLEEP_TIME
+        self.sleep_time = DEFAULT_SLEEP_TIME
+        self.button_dict = BUTTON_DICT
+        self.keyconf_dict = KEYCONF_DICT
+        self.sorted_button_list = BUTTON_LIST
+        self.switchauto
+
+    #def cog_unload(self):
+    #    self.automode.cancel()
 
     @commands.command()
     async def team(self, ctx):
@@ -61,54 +85,77 @@ class Commands(commands.Cog):
             return
         lst = ["", "", "", ""]
         for key in self.group:
-            for i in range(4):
-                lst[i] += str(key) + "\n" if self.group[key] == i else ""
+            lst[self.group[key]] += str(key) + "\n" 
         embed = discord.Embed(title="TEAM LIST")
         embed.add_field(name="1P", value=lst[0] if lst[0] else ':heart:')
         embed.add_field(name="2P", value=lst[1] if lst[1] else ':blue_heart:')
         embed.add_field(name='3P', value=lst[2] if lst[2] else ':yellow_heart:')
         embed.add_field(name='4P', value=lst[3] if lst[3] else ':purple_heart:')
+        embed.set_thumbnail(url=self.bot.user.avatar_url)
         await ctx.send(embed = embed)
     
     @commands.command()
     async def keymap(self, ctx):
         if (ctx.channel.id == int(self.channel_id)):
-            keystr = "UP    : w\nDOWN  : s\nLEFT  : a\nRIGHT : d\nA     : l\nB     : k\nX     : i\nY     : j\nL     : u\nR     : o\nSTART : start\nSELECT: select"
-            embed = discord.Embed(title="key Mapping", description=keystr)
-            await ctx.send(embed=embed)
+            keystr = '```'
+            for value in self.sorted_button_list:
+                for k,v in self.button_dict.items():
+                    if value == v: 
+                        fvalue = value.split('_')[0]
+                        keystr += (f'{fvalue}').center(8) + ':' + (f'{k}').center(8) + '\n'
+                        break
+            keystr += '```'
+            await ctx.send(keystr)
 
     @commands.command()
-    async def switchauto(self, ctx):
+    async def changekey(self, ctx):
+        if (ctx.channel.id == int(self.channel_id)):
+            if re.match(r'.changekey\s[a-zA-Z]\s[a-zA-Z]', ctx.message.content):
+                if ctx.message.content.split(' ')[1] in self.button_dict and ctx.message.content.split(' ')[2] not in self.button_dict:
+                    self.button_dict[ctx.message.content.split(' ')[2]] = self.button_dict.pop(ctx.message.content.split(' ')[1])
+                    await ctx.send('{} を {} に設定したよ :heart:'.format(self.button_dict[ctx.message.content.split(' ')[2]], ctx.message.content.split(' ')[2]))
+
+    @commands.command()
+    async def resetkey(self, ctx):
+        self.button_dict = BUTTON_DICT
+        await ctx.send('キー設定をデフォルト値に設定したよ :heart:')
+
+    @commands.command()
+    async def automode(self, ctx):
         if (ctx.channel.id == int(self.channel_id)):
             if self.auto_mode_flag == False:
-                self.auto_mode_flag = True
-                await ctx.send("オートモードをオンにしたよ :heart:")
+                self.switchauto.start()
+                for button in self.button_dict.values():
+                    if self.auto_button in self.keyconf_dict[button]:
+                        group_num = self.keyconf_dict[button].index(self.auto_button) + 1
+                        button = button.split('_')[0]
+                        await ctx.send("{}Pの{}ボタンのオートモードをオンにしたよ :heart:".format(group_num, button))
+                        break
             else:
                 self.auto_mode_flag = False
+                self.switchauto.cancel()
                 await ctx.send("オートモードをオフにしたよ :heart:")
 
     @commands.command()
     async def autobutton(self, ctx):
         if (ctx.channel.id == int(self.channel_id)) and ctx.author.name in self.group:
-            msg = (ctx.message.content + ' a').split(' ')[1]
-            if msg in BUTTON_LIST:
-                self.auto_button = CORRESP_EMU_BUTTON[BUTTON_LIST[msg]][self.group[ctx.author.name]]
-                await ctx.send("オートボタンを" + BUTTON_LIST[msg] + "に設定したよ :heart:")
+            msg = (ctx.message.content + ' l').split(' ')[1]
+            if msg in self.button_dict:
+                self.auto_button = self.keyconf_dict[self.button_dict[msg]][self.group[ctx.author.name]]
+                await ctx.send("オートボタンを" + self.group[ctx.author.name] + "Pの" + self.button_dict[msg] + "に設定したよ :heart:")
 
-    @tasks.loop(seconds=0.0)
-    async def automode(self):
-        if self.auto_mode_flag:
-            print("task loop test")
-            threading.Thread(
-                target=key_push,
-                args=('dummy_0', self.auto_button,self.sleep_time,
-            )).start()
+    @tasks.loop(seconds=3.2)
+    async def switchauto(self):
+        threading.Thread(
+            target=key_push,
+            args=('dummy_0', self.auto_button,self.sleep_time,
+        )).start()
 
     @commands.command()
     async def setsec(self, ctx):
         if (ctx.channel.id == int(self.channel_id)):
             msg = ctx.message.content + ' ' + str(self.sleep_time)
-            self.sleep_time=toNumber(msg.split(' ')[1], self.sleep_time)
+            self.sleep_time=toNumber(msg.split(' ')[1])
             await ctx.send("スリープタイムを" + str(self.sleep_time) + "秒に設定したよ :heart:")
 
     @commands.command()
@@ -144,6 +191,14 @@ class Commands(commands.Cog):
         elif message.author.name not in self.group:
             self.group[message.author.name] = 0
 
+        #### ボタン押下の一般化
+        if message.content[0] in self.button_dict:
+            threading.Thread(
+                target=key_push_of_array,   
+                args=(message.content, self.group[message.author.name], self.sleep_time, self.keyconf_dict, self.button_dict
+            )).start()
+
+        """
         if message.content.startswith('w'):
             threading.Thread(
                 target=key_push,
@@ -164,7 +219,6 @@ class Commands(commands.Cog):
                 target=key_push,
                 args=(message.content, RIGHT_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-
         elif message.content.startswith('l'):
             threading.Thread(
                 target=key_push,
@@ -195,7 +249,6 @@ class Commands(commands.Cog):
                 target=key_push,
                 args=(message.content, R_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-
         elif message.content == 'start':
             threading.Thread(
                 target=key_push,
@@ -206,7 +259,8 @@ class Commands(commands.Cog):
                 target=key_push,
                 args=(message.content, SELECT_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        elif message.content == '236p':
+            """
+        if message.content == '236p':
             pidx = self.group[message.author.name]
             pyautogui.keyDown(DOWN_BUTTON[pidx])
             pyautogui.keyDown(RIGHT_BUTTON[pidx])
