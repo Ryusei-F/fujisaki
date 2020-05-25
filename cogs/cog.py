@@ -9,7 +9,7 @@ import threading
 from discord.ext import tasks, commands
 
 # class, メンバにdefaultSEC, 詰めて書いて同時押し, spaceで連続押下, 1p2pオブジェクト, ボタン連打
-#aa
+#aaaaaaaaa
 # Input Config
 UP_BUTTON =    ['1', 'e', 'g', 'up']
 LEFT_BUTTON =  ['2', 'left', 'h', '[']
