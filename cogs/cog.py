@@ -121,7 +121,7 @@ class Commands(commands.Cog):
             if re.match(r'.attack\s[a-zA-Z]\s[1-4]', ctx.message.content):
                 button = ctx.message.content.split(' ')[1]
                 group_num = ctx.message.content.split(' ')[2]
-                attack_button = self.keyconf_dict[self.button_dict[button]][group_num]
+                attack_button = self.keyconf_dict[self.button_dict[button]][group_num-1]
                 threading.Thread(
                     target=key_push,
                     args=('dummy_0', attack_button,self.sleep_time,
