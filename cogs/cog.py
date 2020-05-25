@@ -96,6 +96,7 @@ class Commands(commands.Cog):
     
     @commands.command()
     async def keymap(self, ctx):
+        """キー割り当ての表示"""
         if (ctx.channel.id == int(self.channel_id)):
             keystr = '```'
             for value in self.sorted_button_list:
@@ -109,6 +110,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def changekey(self, ctx):
+        """キー割り当ての変更 (!changekey <アルファベット1文字> <アルファベット1文字>)"""
         if (ctx.channel.id == int(self.channel_id)):
             if re.match(r'.changekey\s[a-zA-Z]\s[a-zA-Z]', ctx.message.content):
                 if ctx.message.content.split(' ')[1] in self.button_dict and ctx.message.content.split(' ')[2] not in self.button_dict:
@@ -117,23 +119,27 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def attack(self, ctx):
+        """相手のボタンを押す (!attack <割り当てキー> <プレイヤー番号>)"""
         if (ctx.channel.id == int(self.channel_id)):
             if re.match(r'.attack\s[a-zA-Z]\s[1-4]', ctx.message.content):
                 button = ctx.message.content.split(' ')[1]
                 group_num = ctx.message.content.split(' ')[2]
-                attack_button = self.keyconf_dict[self.button_dict[button]][group_num-1]
-                threading.Thread(
-                    target=key_push,
-                    args=('dummy_0', attack_button,self.sleep_time,
-                )).start()
+                if button in self.button_dict:
+                    attack_button = self.keyconf_dict[self.button_dict[button]][group_num-1]
+                    threading.Thread(
+                        target=key_push,
+                        args=('dummy_0', attack_button,self.sleep_time,
+                    )).start()
 
     @commands.command()
     async def resetkey(self, ctx):
+        """キー設定をデフォルト値に戻す"""
         self.button_dict = BUTTON_DICT
         await ctx.send('キー設定をデフォルト値に設定したよ :heart:')
 
     @commands.command()
     async def automode(self, ctx):
+        """オートボタンに設定されているボタンを連打する(on/off)"""
         if (ctx.channel.id == int(self.channel_id)):
             if self.auto_mode_flag == False:
                 self.switchauto.start()
@@ -150,6 +156,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def autobutton(self, ctx):
+        """オートボタンの設定 (!autobutton <割り当てキー>"""
         if (ctx.channel.id == int(self.channel_id)) and ctx.author.name in self.group:
             msg = (ctx.message.content + ' l').split(' ')[1]
             if msg in self.button_dict:
@@ -165,6 +172,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def setsec(self, ctx):
+        """ボタンの押し込み時間の設定 (!setsec <0-30>)"""
         if (ctx.channel.id == int(self.channel_id)):
             msg = ctx.message.content + ' ' + str(self.sleep_time)
             self.sleep_time=toNumber(msg.split(' ')[1])
@@ -172,24 +180,28 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def join1(self, ctx):
+        """1Pに設定"""
         if (ctx.channel.id == int(self.channel_id)):
             self.group[ctx.author.name] = 0
             await ctx.send(str(ctx.author.name) + 'くんが1Pになったよ :heart:')
     
     @commands.command()
     async def join2(self, ctx):
+        """2Pに設定"""
         if (ctx.channel.id == int(self.channel_id)):
             self.group[ctx.author.name] = 1
             await ctx.send(str(ctx.author.name) + 'くんが2Pになったよ :blue_heart:')
 
     @commands.command()
     async def join3(self, ctx):
+        """3Pに設定"""
         if (ctx.channel.id == int(self.channel_id)):
             self.group[ctx.author.name] = 2
             await ctx.send(str(ctx.author.name) + 'くんが3Pになったよ :yellow_heart:')
     
     @commands.command()
     async def join4(self, ctx):
+        """4Pに設定"""
         if (ctx.channel.id == int(self.channel_id)):
             self.group[ctx.author.name] = 3
             await ctx.send(str(ctx.author.name) + 'くんが4Pになったよ :perple_heart:')
