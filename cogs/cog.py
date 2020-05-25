@@ -42,7 +42,7 @@ def toNumber(arg):
         return DEFAULT_SLEEP_TIME
 
 def key_push(msg, button, sleep_time):
-    formattedMsg = (msg + '_' + str(sleep_time)).split('_')[1]
+    formattedMsg = (msg + ' ' + str(sleep_time)).split(' ')[1]
     s_time = toNumber(formattedMsg)
     pyautogui.keyDown(button)
     time.sleep(s_time)
@@ -126,7 +126,7 @@ class Commands(commands.Cog):
                     attack_button = self.keyconf_dict[self.button_dict[button]][group_num-1]
                     threading.Thread(
                         target=key_push,
-                        args=('dummy_0', attack_button,self.sleep_time,
+                        args=('dummy 0', attack_button,self.sleep_time,
                     )).start()
 
     @commands.command()
@@ -165,7 +165,7 @@ class Commands(commands.Cog):
     async def switchauto(self):
         threading.Thread(
             target=key_push,
-            args=('dummy_0', self.auto_button,self.sleep_time,
+            args=('dummy 0', self.auto_button,self.sleep_time,
         )).start()
 
     @commands.command()
