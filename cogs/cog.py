@@ -121,7 +121,7 @@ class Commands(commands.Cog):
         if (ctx.channel.id == int(self.channel_id)):
             if re.match(r'.attack\s[a-zA-Z]\s[1-4]', ctx.message.content):
                 button = ctx.message.content.split(' ')[1]
-                group_num = ctx.message.content.split(' ')[2]
+                group_num = int(toNumber(ctx.message.content.split(' ')[2]))
                 if button in self.button_dict:
                     attack_button = self.keyconf_dict[self.button_dict[button]][group_num-1]
                     threading.Thread(
@@ -214,13 +214,14 @@ class Commands(commands.Cog):
             self.group[message.author.name] = 0
 
         #### ボタン押下の一般化
+        """
         if message.content[0] in self.button_dict:
             threading.Thread(
                 target=key_push_of_array,   
                 args=(message.content, self.group[message.author.name], self.sleep_time, self.keyconf_dict, self.button_dict
             )).start()
-
-        """
+        """    
+        
         if message.content.startswith('w'):
             threading.Thread(
                 target=key_push,
@@ -281,8 +282,8 @@ class Commands(commands.Cog):
                 target=key_push,
                 args=(message.content, SELECT_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-            """
-        if message.content == '236p':
+            
+        elif message.content == '236p':
             pidx = self.group[message.author.name]
             pyautogui.keyDown(DOWN_BUTTON[pidx])
             pyautogui.keyDown(RIGHT_BUTTON[pidx])
