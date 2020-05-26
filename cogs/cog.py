@@ -202,7 +202,7 @@ class Commands(commands.Cog):
         """4Pに設定"""
         if (ctx.channel.id == int(self.channel_id)):
             self.group[ctx.author.name] = 3
-            await ctx.send(str(ctx.author.name) + 'くんが4Pになったよ :perple_heart:')
+            await ctx.send(str(ctx.author.name) + 'くんが4Pになったよ :purple_heart:')
 
     @commands.Cog.listener()
     async def on_message(self, message):
