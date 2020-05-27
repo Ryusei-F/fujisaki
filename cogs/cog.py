@@ -29,7 +29,7 @@ KEYCONF_DICT= {'UP_BUTTON': UP_BUTTON, 'LEFT_BUTTON': LEFT_BUTTON, 'DOWN_BUTTON'
                      'START_BUTTON': START_BUTTON, 'SELECT_BUTTON': SELECT_BUTTON, 'L_BUTTON': L_BUTTON, 'R_BUTTON': R_BUTTON}
 BUTTON_DICT= {'w': 'UP_BUTTON', 'a': 'LEFT_BUTTON', 's':'DOWN_BUTTON', 'd':'RIGHT_BUTTON',
               'l': 'A_BUTTON', 'k': 'B_BUTTON', 'i': 'X_BUTTON', 'j': 'Y_BUTTON',
-              'start': 'START_BUTTON', 'select': 'SELECT_BUTTON', 'u': 'L_BUTTON', 'o': 'R_BUTTON'}
+              'b': 'START_BUTTON', 'v': 'SELECT_BUTTON', 'u': 'L_BUTTON', 'o': 'R_BUTTON'}
 BUTTON_LIST= ['UP_BUTTON', 'LEFT_BUTTON', 'DOWN_BUTTON', 'RIGHT_BUTTON',
               'A_BUTTON', 'B_BUTTON', 'X_BUTTON', 'Y_BUTTON',
               'START_BUTTON', 'SELECT_BUTTON', 'L_BUTTON', 'R_BUTTON']
@@ -140,6 +140,7 @@ class Commands(commands.Cog):
         """オートボタンを連打する(on/off)"""
         if (ctx.channel.id == int(self.channel_id)):
             if self.auto_mode_flag == False:
+                self,auto_mode_flag = True
                 self.switchauto.start()
                 for button in self.button_dict.values():
                     if self.auto_button in self.keyconf_dict[button]:
@@ -159,7 +160,7 @@ class Commands(commands.Cog):
             msg = (ctx.message.content + ' l').split(' ')[1]
             if msg in self.button_dict:
                 self.auto_button = self.keyconf_dict[self.button_dict[msg]][self.group[ctx.author.name]]
-                await ctx.send("オートボタンを" + self.group[ctx.author.name] + "Pの" + self.button_dict[msg] + "に設定したよ :heart:")
+                await ctx.send("オートボタンを" + str(self.group[ctx.author.name] + 1) + "Pの" + self.button_dict[msg] + "に設定したよ :heart:")
 
     @tasks.loop(seconds=0.2)
     async def switchauto(self):
@@ -214,14 +215,14 @@ class Commands(commands.Cog):
             self.group[message.author.name] = 0
 
         #### ボタン押下の一般化
-        """
+        
         if message.content[0] in self.button_dict:
             threading.Thread(
                 target=key_push_of_array,   
                 args=(message.content, self.group[message.author.name], self.sleep_time, self.keyconf_dict, self.button_dict
             )).start()
-        """    
-        
+            
+        """
         if message.content.startswith('w'):
             threading.Thread(
                 target=key_push,
@@ -282,8 +283,8 @@ class Commands(commands.Cog):
                 target=key_push,
                 args=(message.content, SELECT_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-            
-        elif message.content == '236p':
+        """
+        if message.content == '236p':
             pidx = self.group[message.author.name]
             pyautogui.keyDown(DOWN_BUTTON[pidx])
             pyautogui.keyDown(RIGHT_BUTTON[pidx])
