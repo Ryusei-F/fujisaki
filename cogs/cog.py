@@ -140,7 +140,7 @@ class Commands(commands.Cog):
         """オートボタンを連打する(on/off)"""
         if (ctx.channel.id == int(self.channel_id)):
             if self.auto_mode_flag == False:
-                self,auto_mode_flag = True
+                self.auto_mode_flag = True
                 self.switchauto.start()
                 for button in self.button_dict.values():
                     if self.auto_button in self.keyconf_dict[button]:
