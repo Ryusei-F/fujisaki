@@ -12,8 +12,8 @@ from discord.ext import tasks, commands
 
 conf = []
 with open('./input_config.txt') as f:
-    for line in f:
-        conf.append(line.rstrip('\n').split(', '))
+    for fileline in f:
+        conf.append(fileline.rstrip('\n').split(', '))
 
 # Input Config
 DEFAULT_SLEEP_TIME=0.0
