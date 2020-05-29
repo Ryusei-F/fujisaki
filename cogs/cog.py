@@ -18,8 +18,8 @@ with open('./input_config.txt') as f:
 # Input Config
 DEFAULT_SLEEP_TIME=0.0
 KEYCONF_DICT = {}
-for str in conf:
-    KEYCONF_DICT[str[0]] = str[1:5]
+for one_button_conf in conf:
+    KEYCONF_DICT[one_button_conf[0]] = one_button_conf[1:5]
 
 BUTTON_DICT= {'w': 'UP_BUTTON', 'a': 'LEFT_BUTTON', 's':'DOWN_BUTTON', 'd':'RIGHT_BUTTON',
               'l': 'A_BUTTON', 'k': 'B_BUTTON', 'i': 'X_BUTTON', 'j': 'Y_BUTTON',
