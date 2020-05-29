@@ -1,0 +1,12 @@
+UP_BUTTON, 1, e, g, up
+LEFT_BUTTON, 2, left, h, [
+DOWN_BUTTON, 3, t, j, down
+RIGHT_BUTTON, 4, y, k, right
+B_BUTTON, 5, u, l, backspace
+A_BUTTON, ;, i, z, enter
+Y_BUTTON, :, o, x, space
+X_BUTTON, 8, p, c, home
+START_BUTTON, 9, a, v, pageup
+SELECT_BUTTON, 0, s, b, pagedown
+L_BUTTON, q, d, n, enter
+R_BUTTON, w, f, m, delete

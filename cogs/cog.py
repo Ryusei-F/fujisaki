@@ -9,24 +9,18 @@ import threading
 from discord.ext import tasks, commands
 
 # class, メンバにdefaultSEC, 詰めて書いて同時押し, spaceで連続押下, 1p2pオブジェクト, ボタン連打
-#aaaaaaaaa
+
+conf = []
+with open('./input_config.txt') as f:
+    for line in f:
+        conf.append(line.rstrip('\n').split(', '))
+
 # Input Config
-UP_BUTTON =    ['1', 'e', 'g', 'up']
-LEFT_BUTTON =  ['2', 'left', 'h', '[']
-DOWN_BUTTON =  ['3', 't', 'j', 'down']
-RIGHT_BUTTON = ['4', 'y', 'k', 'right']
-B_BUTTON=      ['5', 'u', 'l', 'backspace']
-A_BUTTON=      [';', 'i', 'z', 'enter']
-Y_BUTTON=      [':', 'o', 'x', 'space']
-X_BUTTON=      ['8', 'p', 'c', 'home']
-START_BUTTON=  ['9', 'a', 'v', 'pageup']
-SELECT_BUTTON= ['0', 's', 'b', 'pagedown']
-L_BUTTON=      ['q', 'd', 'n', 'enter']
-R_BUTTON=      ['w', 'f', 'm', 'delete']
 DEFAULT_SLEEP_TIME=0.0
-KEYCONF_DICT= {'UP_BUTTON': UP_BUTTON, 'LEFT_BUTTON': LEFT_BUTTON, 'DOWN_BUTTON': DOWN_BUTTON, 'RIGHT_BUTTON': RIGHT_BUTTON,
-                     'A_BUTTON': A_BUTTON, 'B_BUTTON': B_BUTTON, 'Y_BUTTON': Y_BUTTON, 'X_BUTTON': X_BUTTON,
-                     'START_BUTTON': START_BUTTON, 'SELECT_BUTTON': SELECT_BUTTON, 'L_BUTTON': L_BUTTON, 'R_BUTTON': R_BUTTON}
+KEYCONF_DICT = {}
+for str in conf:
+    KEYCONF_DICT[str[0]] = str[1:5]
+
 BUTTON_DICT= {'w': 'UP_BUTTON', 'a': 'LEFT_BUTTON', 's':'DOWN_BUTTON', 'd':'RIGHT_BUTTON',
               'l': 'A_BUTTON', 'k': 'B_BUTTON', 'i': 'X_BUTTON', 'j': 'Y_BUTTON',
               'b': 'START_BUTTON', 'v': 'SELECT_BUTTON', 'u': 'L_BUTTON', 'o': 'R_BUTTON'}
@@ -283,7 +277,6 @@ class Commands(commands.Cog):
                 target=key_push,
                 args=(message.content, SELECT_BUTTON[self.group[message.author.name]],self.sleep_time,
             )).start()
-        """
         if message.content == '236p':
             pidx = self.group[message.author.name]
             pyautogui.keyDown(DOWN_BUTTON[pidx])
@@ -300,7 +293,7 @@ class Commands(commands.Cog):
             pyautogui.keyDown(Y_BUTTON[pidx])
             pyautogui.keyUp(LEFT_BUTTON[pidx])
             pyautogui.keyUp(Y_BUTTON[pidx])
-
+        """
 
     @commands.Cog.listener()
     async def on_ready(self):
