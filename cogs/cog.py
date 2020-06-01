@@ -42,6 +42,14 @@ def key_push(msg, button, sleep_time):
     time.sleep(s_time)
     pyautogui.keyUp(button)
 
+def wait_for_threading(self, a_button, group_num):
+    time.sleep(5)
+    if self.attack_to[group_num] != 0:
+        pyautogui.keyDown(a_button)
+        time.sleep(0)
+        pyautogui.keyUp(a_button)
+        self.attack_to[group_num] = 0
+
 # async key_push for array
 def key_push_of_array(msg, group_num, sleep_time, keyconf_dict, button_dict):
     keyarray = list(msg.split(' ')[0])
@@ -69,6 +77,7 @@ class Commands(commands.Cog):
         self.keyconf_dict = KEYCONF_DICT
         self.sorted_button_list = BUTTON_LIST
         self.switchauto
+        self.attack_to = [0, 0, 0, 0]
 
     @commands.command()
     async def team(self, ctx):
@@ -110,6 +119,14 @@ class Commands(commands.Cog):
                     await ctx.send('{} を {} に設定したよ :heart:'.format(self.button_dict[ctx.message.content.split(' ')[2]], ctx.message.content.split(' ')[2]))
 
     @commands.command()
+    async def block(self, ctx):
+        """攻撃を受けているときにブロック"""
+        if ctx.channel.id == int(self.channel_id):
+            if self.attack_to[self.group[ctx.author.name]] != 0:
+                self.attack_to[self.group[ctx.author.name]] = 0
+                await ctx.send('攻撃をブロックしたよ :heart:')
+
+    @commands.command()
     async def attack(self, ctx):
         """相手のボタンを押す (!attack <キー> <P番号>)"""
         if (ctx.channel.id == int(self.channel_id)):
@@ -117,11 +134,13 @@ class Commands(commands.Cog):
                 button = ctx.message.content.split(' ')[1]
                 group_num = int(toNumber(ctx.message.content.split(' ')[2]))
                 if button in self.button_dict:
-                    attack_button = self.keyconf_dict[self.button_dict[button]][group_num-1]
+                    a_button = self.keyconf_dict[self.button_dict[button]][group_num-1]
+                    self.attack_to[group_num-1] = 1
                     threading.Thread(
-                        target=key_push,
-                        args=('dummy 0', attack_button,self.sleep_time,
-                    )).start()
+                        target=wait_for_threading,
+                        args=(self, a_button, group_num-1)
+                    ).start()
+                    await ctx.send('{}Pの{}ボタンを5秒後に押すよ :heart:'.format(group_num, self.button_dict[button]))
 
     @commands.command()
     async def resetkey(self, ctx):
